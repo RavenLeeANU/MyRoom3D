@@ -1,0 +1,24 @@
+{
+    "configs" : {
+        "Path" : "./resources/",
+        "Url" : {
+            "MainLevel" : "myroom.glb",
+            "TvStream" : ""
+        },
+        "SceneName" : "Room",
+        "LevelId" : "1",
+        "Objects" : {
+            "Photos" : [],
+            "Media" : [],
+            "Interactables" : []
+        },
+        "Avatar" : [
+            {
+                "Name" : "Player",
+                "Scale" : 2,
+                "Position" : { "x" : 0, "y" : 0, "z" : 0},
+                "Rotation" : { "x" : 0, "y" : 0, "z" : 0}
+            }
+        ]
+    }
+}
