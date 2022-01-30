@@ -2,7 +2,7 @@ import { AnimationGroup, Nullable, Observable, Observer, Scene, Skeleton, Transf
 import { Console } from "./logger";
 import { calcDistance3D } from "./utils";
 
-const walkSpeed = 2;
+const walkSpeed = 0.5;
 const step = 1000 / 25;
 
 export class Player{
@@ -29,13 +29,13 @@ export class Player{
 
     public move(dest : Vector3){
         
-        const current = this._root.position;
-       
+        const current = this._root.absolutePosition.clone();
+        
         dest.y = current.y;
-        Console.debug(dest + ";"+ current);
         let time = calcDistance3D(current, dest) / walkSpeed;
         
         return new Promise<void>((resolve,reject)=>{
+            
             if (this._actOb) {
                 this._scene.onBeforeRenderObservable.remove(this._actOb);
             }
@@ -45,7 +45,8 @@ export class Player{
             this._activeAnim.play(true);
             
             let present = 0;
-            this._root?.lookAt(dest);
+
+            this._root?.lookAt(current.subtract(dest));
 
             this._actOb = this._scene?.onBeforeRenderObservable.add(() => {
                 if (present < 1) {
@@ -55,8 +56,10 @@ export class Player{
                       present
                     );                    
                     present += step / (time * 1000);
-                    this._root.position = currentWalkPos;
-                  } else {
+                    Console.error(currentWalkPos + "")
+                    this._root.setAbsolutePosition(currentWalkPos);
+                    
+                } else {
                     
                     this._activeAnim && this._activeAnim.stop();
                     this._activeAnim = this._animations.find((ag)=>{return ag.name == 'Idle'})!;
