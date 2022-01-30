@@ -8,17 +8,79 @@
         "SceneName" : "Room",
         "LevelId" : "1",
         "Objects" : {
-            "Photos" : [],
-            "Media" : [],
-            "Interactables" : []
+            "Urls" : [
+                {
+                    "ObjectId": "Cylinder",
+                    "url" : "https://www.bilibili.com/"
+                },
+                {
+                    "ObjectId": "Cylinder.001",
+                    "url" : "https://www.baidu.com/"
+                }
+            ],
+            "Media" : [
+                {
+                    "ObjectId": "Plane.004",
+                    "url" : "https://app-asset-1258211750.file.myqcloud.com/1/media/welcome.mp4"
+                },
+                {
+                    "ObjectId": "Plane.005",
+                    "url" : "https://app-asset-1258211750.file.myqcloud.com/1/media/welcome.mp4"
+                },
+                {
+                    "ObjectId": "Plane.006",
+                    "url" : "https://app-asset-1258211750.file.myqcloud.com/1/media/welcome.mp4"
+                },
+                {
+                    "ObjectId": "Plane.007",
+                    "url" : "https://app-asset-1258211750.file.myqcloud.com/1/media/welcome.mp4"
+                }
+            ],
+            "Photos" :[
+                {
+                    "ObjectId": "Plane.001",
+                    "url" : "./resources/photo-test.png"
+                },
+                {
+                    "ObjectId": "Plane.002",
+                    "url" : "./resources/photo-test.png"
+                },
+                {
+                    "ObjectId": "Plane.003",
+                    "url" : "./resources/photo-test.png"
+                }
+            ],
+            "Music" : [     
+                {
+                    "ObjectId": "Icosphere",
+                    "url" : "https://music.163.com/outchain/player?type=2&id=1459722976&auto=1&height=66"
+                }
+            ],
+            "Text" : [
+                {
+                    "ObjectId": "Plane.008",
+                    "txt" : "test11234..???二号非"
+                }
+            ]
+
         },
         "Avatar" : [
             {
                 "Name" : "Player",
+                "ObjectId":"Armature",
                 "Scale" : 2,
                 "Position" : { "x" : 0, "y" : 0, "z" : 0},
                 "Rotation" : { "x" : 0, "y" : 0, "z" : 0}
             }
+        ],
+        "GroundLayer" : [
+            "Ground"
         ]
+    },
+    "actions" : {
+        "Armature" : ["Focus"],
+        "Decoration" : ["Rotate"],
+        "Ground" : ["MoveAvatar"],
+        "UrlObjects" : ["OpenLink"]
     }
 }
