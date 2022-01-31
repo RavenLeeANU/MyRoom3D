@@ -1,6 +1,8 @@
-import { Engine, Scene,FreeCamera,DirectionalLight,HemisphericLight,Vector3,ArcRotateCamera, SceneLoader, PointerEventTypes} from "@babylonjs/core";
+import { Engine, Scene,FreeCamera,DirectionalLight,HemisphericLight,Vector3,ArcRotateCamera, SceneLoader, PointerEventTypes, CannonJSPlugin} from "@babylonjs/core";
 import { LevelScene } from "./level";
 import { Interactor } from "./action";
+import * as cannon from "cannon";
+
 export class Room{
     public engine!: Engine;
     public scene!: Scene;
@@ -17,6 +19,13 @@ export class Room{
         this.engine = new Engine(this.canvas, true);
         this.scene = new Scene(this.engine,undefined);
         this.action = new Interactor(this.scene);
+        const gravityVector = new Vector3(0, -9.8, 0);
+
+        (window as any).room = this;
+        const physicsPlugin = new CannonJSPlugin(true, 10, cannon);
+        this.scene.enablePhysics(gravityVector, physicsPlugin);
+
+        this.scene.enablePhysics()
         // run the main render loop
         this.engine.runRenderLoop(() => {
             this.scene.render();
@@ -42,7 +51,7 @@ export class Room{
             new Vector3(0, 0, 0),
             this.scene
           );
-      
+
         camera.attachControl(this.canvas, true);
             
         const level = new LevelScene(this.scene);

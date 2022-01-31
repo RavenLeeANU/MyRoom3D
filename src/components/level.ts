@@ -1,4 +1,4 @@
-import { ActionManager, Color3, DynamicTexture, ExecuteCodeAction, PBRBaseMaterial, PointerEventTypes, PointerInfo, Scene, SceneLoader, Sound, StandardMaterial, Texture, TransformNode, VideoTexture } from "@babylonjs/core";
+import { AbstractMesh, ActionManager, ArcRotateCamera, Color3, DynamicTexture, ExecuteCodeAction, PBRBaseMaterial, PhysicsImpostor, PointerEventTypes, PointerInfo, Scene, SceneLoader, Sound, StandardMaterial, Texture, TransformNode, VideoTexture } from "@babylonjs/core";
 import { configs } from "../../resources/configs.json"
 import Hls from 'hls.js'
 import { Console } from "./logger";
@@ -95,15 +95,35 @@ export class LevelScene {
                     //debugger
                     configs.Avatar.forEach((avatarInfos)=>{
                         if(avatarInfos.ObjectId == type.name){
+                            //debugger
                             //to do fix multiple avatar
                             //@ts-ignore
                             type.animationGroups = entries.animationGroups;
                             //@ts-ignore
                             type.skeleton = entries.skeletons[0];
-
+                            //type.parent = null;
                             this._player = new Player(this._scene,type as TransformNode);
+                            (this._scene.cameras[0] as ArcRotateCamera).setTarget(type.absolutePosition);
+
+                            type.getChildMeshes().forEach((mesh)=>{
+                                mesh.refreshBoundingInfo(true);
+                            })
                             
                         }
+                    })
+                }
+
+                if(type.name === "CollisionObjects" ){
+                    type.getChildMeshes().forEach((mesh)=>{
+                        //mesh.parent = null;
+                        mesh.physicsImpostor = new PhysicsImpostor(mesh,PhysicsImpostor.MeshImpostor,{ mass: 1, restitution: 0.8 }, this._scene);
+                    })
+                }
+
+                if(type.name === "Ground" || type.name === "Ground"){
+                    type.getChildMeshes().forEach((mesh)=>{
+                        //mesh.parent = null;
+                        mesh.physicsImpostor = new PhysicsImpostor(mesh,PhysicsImpostor.MeshImpostor,{ mass: 1, restitution: 0.8 }, this._scene);
                     })
                 }
 
@@ -169,7 +189,7 @@ export class LevelScene {
 
                         configs.Objects.Photos && configs.Objects.Photos.forEach((pair)=>{
                             if(pair.ObjectId === mesh.name){
-                                Console.debug(pair.ObjectId+","+mesh.name);
+                                
                                 //@ts-ignore
                                 mesh.photo = pair.url;
                                 const mat = new StandardMaterial("photoMat", this._scene);
@@ -200,6 +220,8 @@ export class LevelScene {
                                 })
                             }    
                         });
+                        
+                        
 
                         configs.Objects.Text && configs.Objects.Text.forEach((pair)=>{
                             if(pair.ObjectId === mesh.name){

@@ -29,7 +29,7 @@ export class Player{
 
     public move(dest : Vector3){
         
-        const current = this._root.absolutePosition.clone();
+        const current = new Vector3(this._root.absolutePosition.x,this._root.absolutePosition.y,this._root.absolutePosition.z);
         
         dest.y = current.y;
         let time = calcDistance3D(current, dest) / walkSpeed;
@@ -56,7 +56,7 @@ export class Player{
                       present
                     );                    
                     present += step / (time * 1000);
-                    Console.error(currentWalkPos + "")
+                    
                     this._root.setAbsolutePosition(currentWalkPos);
                     
                 } else {
